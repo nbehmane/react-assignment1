@@ -17,13 +17,24 @@ function MyApp() {
   async function makePostCall(person) {
     try {
       const response = await axios.post('http://localhost:5000/users', person);
-      return response;
+      return response.data;
     }
     catch (error) {
       console.log(error);
       return false;
     }
 
+  }
+
+  async function makeDeleteCall(person) {
+    try {
+      const response = await axios.delete('http://localhost:5000/users/' + person);
+      return response;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
   function updateList(person) {
@@ -47,11 +58,12 @@ function MyApp() {
   }
 
 
-  function removeOneCharacter (index){
-    const updated = characters.filter((character, i) => {
-      return i !== index
-    });
-    setCharacters(updated)
+
+  function removeOneCharacter (id) {
+    makeDeleteCall(id).then( result => {
+        if (result)
+          setCharacters([...characters]);
+      });
   }
 
   return (
