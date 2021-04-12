@@ -62,7 +62,10 @@ function MyApp() {
   function removeOneCharacter (id) {
     makeDeleteCall(id).then( result => {
         if (result)
-          setCharacters([...characters]);
+          fetchAll().then(result2 =>
+            {
+              setCharacters(result2);
+            });
       });
   }
 
