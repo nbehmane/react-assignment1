@@ -17,7 +17,7 @@ function MyApp() {
   async function makePostCall(person) {
     try {
       const response = await axios.post('http://localhost:5000/users', person);
-      return response.data;
+      return response;
     }
     catch (error) {
       console.log(error);
@@ -62,10 +62,12 @@ function MyApp() {
   function removeOneCharacter (id) {
     makeDeleteCall(id).then( result => {
         if (result)
-          fetchAll().then(result2 =>
-            {
-              setCharacters(result2);
-            });
+        {
+          const updated = characters.filter((characters) => {
+            return characters.id !== id
+          });
+          setCharacters(updated);
+        }
       });
   }
 
